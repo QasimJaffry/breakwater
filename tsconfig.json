@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "lib": ["ES2022", "DOM"],
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": false,
+    "skipLibCheck": true,
+    "types": ["node"],
+    "paths": {
+      "@breakwater/core": ["./packages/core/src/index.ts"],
+      "@breakwater/cli": ["./packages/cli/src/index.ts"],
+      "@breakwater/collector": ["./packages/collector/src/index.ts"],
+      "@breakwater/web": ["./packages/web/src/index.ts"],
+      "@breakwater/react-native": ["./packages/react-native/src/index.ts"]
+    }
+  },
+  "include": ["./packages/*/src/**/*.ts", "packages/*/test/**/*.ts", "scripts/**/*.ts"]
+}

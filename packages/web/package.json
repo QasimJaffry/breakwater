@@ -1,0 +1,1 @@
+{ "name": "@breakwater/web", "version": "0.1.0", "type": "module", "main": "dist/index.js", "license": "MIT", "dependencies": { "@breakwater/core": "0.1.0" } }

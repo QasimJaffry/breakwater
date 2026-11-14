@@ -1,0 +1,1 @@
+{ "name": "@breakwater/cli", "version": "0.1.0", "type": "module", "license": "MIT", "bin": { "breakwater": "dist/cli.js" } }

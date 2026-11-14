@@ -1,0 +1,30 @@
+{
+  "openapi": "3.1.0",
+  "info": { "title": "Eats API", "version": "main" },
+  "paths": {
+    "/orders/{orderId}": { "get": { "responses": { "200": { "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Order" } } } } } } },
+    "/restaurants": { "get": { "responses": { "200": { "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Restaurant" } } } } } } } },
+    "/me": { "get": { "responses": { "200": { "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Me" } } } } } } },
+    "/promos/legacy": { "get": { "responses": { "200": { "content": { "application/json": { "schema": { "type": "object", "properties": { "code": { "type": "string" }, "banner": { "type": "string" } } } } } } } } }
+  },
+  "components": {
+    "schemas": {
+      "Order": {
+        "type": "object",
+        "required": ["id", "status", "courier", "items", "total"],
+        "properties": {
+          "id": { "type": "string" },
+          "status": { "type": "string", "enum": ["placed", "cooking", "on_the_way", "delivered"] },
+          "eta": { "type": "integer", "description": "minutes" },
+          "courier": { "$ref": "#/components/schemas/Courier" },
+          "items": { "type": "array", "items": { "type": "object", "required": ["name", "qty", "price"], "properties": { "name": { "type": "string" }, "qty": { "type": "integer" }, "price": { "type": "integer" }, "notes": { "type": "string" } } } },
+          "total": { "type": "integer" },
+          "legacyTip": { "type": "number" }
+        }
+      },
+      "Courier": { "type": "object", "required": ["name", "phone"], "properties": { "name": { "type": "string" }, "phone": { "type": "string" }, "vehicle": { "type": "string" }, "location": { "type": "object", "properties": { "lat": { "type": "number" }, "lng": { "type": "number" } } } } },
+      "Restaurant": { "type": "object", "required": ["id", "name"], "properties": { "id": { "type": "string" }, "name": { "type": "string" }, "rating": { "type": "number" }, "cuisine": { "type": "string" }, "deliveryFee": { "type": "integer" } } },
+      "Me": { "type": "object", "required": ["id", "name", "email"], "properties": { "id": { "type": "string" }, "name": { "type": "string" }, "email": { "type": "string" }, "avatarUrl": { "type": "string" }, "loyalty": { "type": "object", "properties": { "points": { "type": "integer" }, "tier": { "type": "string" } } } } }
+    }
+  }
+}

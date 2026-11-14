@@ -1,0 +1,238 @@
+{
+  "schema": 1,
+  "generatedAt": "2026-11-14T18:30:29.340Z",
+  "windowDays": 30,
+  "versions": [
+    {
+      "platform": "android",
+      "version": "4.4.0",
+      "installs": 89
+    },
+    {
+      "platform": "android",
+      "version": "4.5.2",
+      "installs": 150
+    },
+    {
+      "platform": "android",
+      "version": "5.0.0",
+      "installs": 409
+    },
+    {
+      "platform": "ios",
+      "version": "4.2.0",
+      "installs": 29
+    },
+    {
+      "platform": "ios",
+      "version": "4.3.1",
+      "installs": 69
+    },
+    {
+      "platform": "ios",
+      "version": "4.5.0",
+      "installs": 120
+    },
+    {
+      "platform": "ios",
+      "version": "5.0.0",
+      "installs": 397
+    },
+    {
+      "platform": "web",
+      "version": "2026.11.2",
+      "installs": 57
+    }
+  ],
+  "usage": {
+    "GET /me": {
+      "avatarUrl": [
+        "android@4.5.2",
+        "android@5.0.0",
+        "ios@4.5.0",
+        "ios@5.0.0"
+      ],
+      "email": [
+        "android@4.4.0",
+        "ios@4.2.0",
+        "ios@4.3.1"
+      ],
+      "loyalty": [
+        "android@4.4.0",
+        "android@4.5.2",
+        "ios@4.2.0",
+        "ios@4.3.1",
+        "ios@4.5.0"
+      ],
+      "loyalty.points": [
+        "android@4.4.0",
+        "ios@4.2.0",
+        "ios@4.3.1"
+      ],
+      "loyalty.tier": [
+        "android@4.5.2",
+        "ios@4.5.0"
+      ],
+      "name": [
+        "android@4.4.0",
+        "android@4.5.2",
+        "android@5.0.0",
+        "ios@4.2.0",
+        "ios@4.3.1",
+        "ios@4.5.0",
+        "ios@5.0.0"
+      ]
+    },
+    "GET /orders/:id": {
+      "courier": [
+        "android@4.4.0",
+        "android@4.5.2",
+        "android@5.0.0",
+        "ios@4.2.0",
+        "ios@4.3.1",
+        "ios@4.5.0",
+        "ios@5.0.0",
+        "web@2026.11.2"
+      ],
+      "courier.location": [
+        "android@5.0.0",
+        "ios@5.0.0",
+        "web@2026.11.2"
+      ],
+      "courier.location.lat": [
+        "android@5.0.0",
+        "ios@5.0.0",
+        "web@2026.11.2"
+      ],
+      "courier.location.lng": [
+        "android@5.0.0",
+        "ios@5.0.0",
+        "web@2026.11.2"
+      ],
+      "courier.name": [
+        "android@4.4.0",
+        "android@4.5.2",
+        "android@5.0.0",
+        "ios@4.2.0",
+        "ios@4.3.1",
+        "ios@4.5.0",
+        "ios@5.0.0",
+        "web@2026.11.2"
+      ],
+      "courier.phone": [
+        "android@4.4.0",
+        "android@4.5.2",
+        "ios@4.2.0",
+        "ios@4.3.1",
+        "ios@4.5.0"
+      ],
+      "courier.vehicle": [
+        "android@5.0.0",
+        "ios@5.0.0",
+        "web@2026.11.2"
+      ],
+      "eta": [
+        "android@5.0.0",
+        "ios@5.0.0",
+        "web@2026.11.2"
+      ],
+      "items": [
+        "android@4.4.0",
+        "android@4.5.2",
+        "android@5.0.0",
+        "ios@4.2.0",
+        "ios@4.3.1",
+        "ios@4.5.0",
+        "ios@5.0.0",
+        "web@2026.11.2"
+      ],
+      "items[]": [
+        "android@4.4.0",
+        "android@4.5.2",
+        "ios@4.2.0",
+        "ios@4.3.1",
+        "ios@4.5.0"
+      ],
+      "items[].name": [
+        "android@4.4.0",
+        "android@4.5.2",
+        "ios@4.2.0",
+        "ios@4.3.1",
+        "ios@4.5.0"
+      ],
+      "items[].price": [
+        "android@4.4.0",
+        "android@4.5.2",
+        "ios@4.2.0",
+        "ios@4.3.1",
+        "ios@4.5.0"
+      ],
+      "items[].qty": [
+        "android@4.4.0",
+        "android@4.5.2",
+        "ios@4.2.0",
+        "ios@4.3.1",
+        "ios@4.5.0"
+      ],
+      "status": [
+        "android@4.4.0",
+        "android@4.5.2",
+        "android@5.0.0",
+        "ios@4.2.0",
+        "ios@4.3.1",
+        "ios@4.5.0",
+        "ios@5.0.0",
+        "web@2026.11.2"
+      ],
+      "total": [
+        "android@4.4.0",
+        "android@4.5.2",
+        "android@5.0.0",
+        "ios@4.2.0",
+        "ios@4.3.1",
+        "ios@4.5.0",
+        "ios@5.0.0",
+        "web@2026.11.2"
+      ]
+    },
+    "GET /restaurants": {
+      "[]": [
+        "android@4.4.0",
+        "android@4.5.2",
+        "android@5.0.0",
+        "ios@4.2.0",
+        "ios@4.3.1",
+        "ios@4.5.0",
+        "ios@5.0.0",
+        "web@2026.11.2"
+      ],
+      "[].cuisine": [
+        "android@5.0.0",
+        "ios@5.0.0",
+        "web@2026.11.2"
+      ],
+      "[].deliveryFee": [
+        "android@5.0.0",
+        "ios@5.0.0",
+        "web@2026.11.2"
+      ],
+      "[].name": [
+        "android@4.4.0",
+        "android@4.5.2",
+        "android@5.0.0",
+        "ios@4.2.0",
+        "ios@4.3.1",
+        "ios@4.5.0",
+        "ios@5.0.0",
+        "web@2026.11.2"
+      ],
+      "[].rating": [
+        "android@4.4.0",
+        "android@4.5.2",
+        "ios@4.2.0",
+        "ios@4.3.1",
+        "ios@4.5.0"
+      ]
+    }
+  }
+}

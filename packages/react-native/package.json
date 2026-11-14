@@ -1,0 +1,5 @@
+{
+  "name": "@breakwater/react-native", "version": "0.1.0", "type": "module", "main": "dist/index.js", "license": "MIT",
+  "dependencies": { "@breakwater/core": "0.1.0" },
+  "peerDependencies": { "react-native": ">=0.72" }
+}

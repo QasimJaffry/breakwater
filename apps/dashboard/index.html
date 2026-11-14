@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Breakwater: see who breaks before you ship</title>
+<style>
+  :root { --bg:#060a12; --card:#0c1220; --line:#1b2438; --text:#e8edf8; --muted:#8792aa; --bad:#ff6b6b; --ok:#5fd39a; --accent:#7ad7ff; }
+  * { box-sizing:border-box; } body { margin:0; background:var(--bg); color:var(--text); font:14px/1.5 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; }
+  code { font:12.5px ui-monospace,SFMono-Regular,Menlo,monospace; }
+  .wrap { max-width:1240px; margin:0 auto; padding:28px 24px 60px; }
+  .hero { display:flex; justify-content:space-between; gap:24px; align-items:flex-end; flex-wrap:wrap; }
+  h1 { margin:0; font-size:40px; letter-spacing:-.03em; line-height:1.05; }
+  h1 span { background:linear-gradient(90deg,#7ad7ff,#9b8cff); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .sub { color:var(--muted); margin:8px 0 0; max-width:620px; font-size:15px; }
+  .demo { font-size:12px; color:#b9c4dc; border:1px solid var(--line); border-radius:999px; padding:6px 12px; background:#0b1120; }
+  .kpis { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin:24px 0 14px; }
+  .kpi { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px 16px; }
+  .kpi b { display:block; font-size:30px; letter-spacing:-.02em; font-variant-numeric:tabular-nums; } .kpi span { color:var(--muted); font-size:12px; }
+  .kpi.bad b { color:var(--bad); }
+  .strip { display:flex; height:30px; border-radius:9px; overflow:hidden; gap:2px; margin-bottom:28px; }
+  .seg { background:color-mix(in srgb, var(--c) 30%, #0c1220); border-top:3px solid var(--c); display:flex; align-items:center; justify-content:center; min-width:0; font-size:11px; color:#dfe6f5; white-space:nowrap; overflow:hidden; }
+  h2 { font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin:0 0 10px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:16px; padding:18px; margin-bottom:22px; }
+  .prhead { display:flex; justify-content:space-between; align-items:baseline; gap:12px; flex-wrap:wrap; margin-bottom:12px; }
+  .prhead h3 { margin:0; font-size:18px; } .prhead p { margin:0; color:var(--muted); font-size:12px; }
+  .prrow { width:100%; display:grid; grid-template-columns:150px minmax(220px,1.2fr) 2fr 110px; gap:12px; align-items:center; text-align:left; background:#0a1019; border:1px solid var(--line); border-left:3px solid var(--bad); color:var(--text); border-radius:10px; padding:10px 12px; margin-bottom:8px; cursor:pointer; font:inherit; }
+  .prrow:hover, .prrow.on { border-color:#3a2430; background:#140d14; border-left-color:var(--bad); }
+  .kind { color:#ffb3b3; font-weight:650; font-size:13px; }
+  .vers { display:flex; flex-wrap:wrap; gap:4px; } .vers i { font-style:normal; font-size:11px; padding:2px 7px; border-radius:6px; background:color-mix(in srgb, var(--c) 18%, transparent); color:var(--c); }
+  .share { text-align:right; } .share b { display:block; font-size:20px; color:var(--bad); } .share small { color:var(--muted); font-size:11px; }
+  .safe { margin-top:12px; } .safe h4 { margin:0 0 6px; color:var(--ok); font-size:13px; } .safe ul { margin:0; padding-left:18px; color:var(--muted); font-size:13px; } .safe li span { margin-left:6px; }
+  .tabs { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px; }
+  .tab { background:#0a1019; color:var(--muted); border:1px solid var(--line); border-radius:9px; padding:7px 12px; font:12.5px ui-monospace,monospace; cursor:pointer; }
+  .tab.on { color:var(--text); border-color:#2f4266; background:#0f1a2e; } .tab em { font-style:normal; background:var(--bad); color:#200; font-weight:800; border-radius:999px; padding:0 6px; margin-left:6px; font-size:11px; }
+  .grid { overflow:auto; border:1px solid var(--line); border-radius:12px; }
+  .row { display:grid; grid-template-columns: minmax(300px,1.6fr) repeat(var(--n), minmax(58px,1fr)) 190px; align-items:center; border-bottom:1px solid #121a2b; min-width:fit-content; }
+  .row:last-child { border-bottom:0; }
+  .row.head { position:sticky; top:0; background:#0b1222; z-index:1; font-size:11px; color:var(--muted); }
+  .row.head .c { display:flex; flex-direction:column; align-items:center; padding:8px 2px; border-top:2px solid var(--c); } .row.head .c b { color:var(--text); font-weight:650; font-size:11.5px; }
+  .f { padding:9px 12px; display:flex; gap:8px; align-items:center; flex-wrap:wrap; } .f small { color:var(--muted); font-size:11px; }
+  .c { display:flex; justify-content:center; } .c i { width:22px; height:22px; border-radius:6px; background:var(--c); box-shadow:0 0 12px color-mix(in srgb, var(--c) 45%, transparent); } .c s { width:22px; height:22px; border-radius:6px; background:#0f1626; }
+  .r { display:flex; align-items:center; gap:8px; padding-right:12px; font-variant-numeric:tabular-nums; font-size:12px; } .bar { flex:1; height:6px; background:#121a2b; border-radius:3px; overflow:hidden; } .bar i { display:block; height:100%; background:linear-gradient(90deg,#7ad7ff,#9b8cff); }
+  .row.bad .f code { color:#ffb3b3; } .row.focus { background:#1a0f16; outline:1px solid #5a2a35; } .row.cold .f code { color:#6d7894; }
+  .flag { font-size:10.5px; padding:1px 7px; border-radius:999px; font-weight:650; } .flag.bad { background:#3a1218; color:#ffb3b3; } .flag.ok { background:#0f2a1d; color:var(--ok); } .flag.dim { background:#151d2e; color:#a8b3cc; }
+  .how { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; } .how div { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px 16px; color:#c3cce0; font-size:13px; } .how b { color:var(--text); display:block; margin-bottom:4px; }
+  footer { color:var(--muted); font-size:12px; margin-top:26px; }
+  @media (max-width: 820px) { .seg span { display:none; } .kpis { grid-template-columns:1fr 1fr; } .prrow { grid-template-columns:1fr; } .share { text-align:left; } .how { grid-template-columns:1fr; } h1 { font-size:30px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <div>
+      <h1>Breakwater <span>sees who breaks<br/>before you ship.</span></h1>
+      <p class="sub">Your old app versions are still out there. Breakwater records which API fields each shipped version actually reads, so every API change gets a real blast radius instead of a guess.</p>
+    </div>
+    <div class="demo">Demo: simulated traffic from the example “Eats” app, measured by the real SDK + collector</div>
+  </div>
+  <div class="kpis">
+    <div class="kpi bad"><b id="kpi-breaking"></b><span>breaking changes in this PR</span></div>
+    <div class="kpi bad"><b id="kpi-share"></b><span>of active installs affected</span></div>
+    <div class="kpi"><b id="kpi-installs"></b><span>active installs, last <span id="window"></span></span></div>
+    <div class="kpi"><b id="kpi-unused"></b><span>returned fields nobody reads</span></div>
+  </div>
+  <div class="strip" id="strip"></div>
+
+  <div class="card">
+    <div class="prhead"><h3>PR #482 · “API cleanup”</h3><p>What <code>breakwater check</code> posts on the pull request. Click a row to see it in the field map.</p></div>
+    <div id="pr"></div>
+  </div>
+
+  <h2>Field map: who reads what</h2>
+  <div class="tabs" id="tabs"></div>
+  <div class="grid" id="grid" style="--n:8"></div>
+
+  <h2 style="margin-top:28px">How it works</h2>
+  <div class="how">
+    <div><b>1 · SDK in your apps</b>React Native, Expo and web. Wraps <code>fetch</code>; a Proxy records which response fields your code reads. Paths only: never values, URLs with ids, or headers.</div>
+    <div><b>2 · Collector</b>One small Node service with SQLite. Aggregates reads per app version and counts active installs per version.</div>
+    <div><b>3 · CI check</b><code>breakwater check</code> diffs your OpenAPI spec, joins it with real reads, and fails the PR above your threshold.</div>
+  </div>
+  <footer>Open source, MIT. “Not read” is strong evidence, not proof: a screen nobody opened in the window looks unused.</footer>
+</div>
+<script>/*BUNDLE*/</script>
+</body>
+</html>

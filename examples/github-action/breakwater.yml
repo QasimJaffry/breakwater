@@ -1,0 +1,17 @@
+# Drop into .github/workflows/ of your API repo. Fails the PR if a response change breaks
+# more than 1% of active app installs, and posts the impact table as a PR comment.
+name: breakwater
+on: pull_request
+permissions: { contents: read, pull-requests: write }
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - run: git show origin/${{ github.base_ref }}:openapi.json > /tmp/openapi-base.json
+      - run: npx @breakwater/cli check --old /tmp/openapi-base.json --new openapi.json --collector ${{ vars.BREAKWATER_URL }} --fail-above 0.01 --out breakwater.md
+        env: { BREAKWATER_READ_KEY: "${{ secrets.BREAKWATER_READ_KEY }}" }
+      - if: always()
+        uses: marocchino/sticky-pull-request-comment@v2
+        with: { path: breakwater.md }
