@@ -27,7 +27,7 @@ It prints the PR report above and writes `dist/dashboard.html`: open it in a bro
 
 You can redeploy a backend in minutes. You cannot redeploy the app on your users' phones. A real share of every mobile install base runs versions that are months old, so renaming a field, removing one, or letting it become `null` silently breaks people you can't see.
 
-Schema diff tools (OpenAPI diff, BreakShield, the now-archived Optic) tell you a change is *structurally* breaking. They can't tell you whether anyone still depends on it, so teams either keep dead fields forever or ship and hope. The usual advice is "measure actual usage before removing anything". Breakwater is that measurement, per field and per app version.
+Schema diff tools ([oasdiff](https://github.com/oasdiff/oasdiff), [BreakShield CI](https://github.com/apps/breakshield-ci), and [Optic](https://github.com/opticdev/optic), archived in January 2026) tell you a change is *structurally* breaking. [Breakwatch](https://github.com/pyjeebz/breakwatch) goes further for microservices: it checks a graph of which consumers use the changed endpoints. None of them can tell you whether a shipped app version still *reads* the field, so teams either keep dead fields forever or ship and hope. The usual advice is "measure actual usage before removing anything". Breakwater is that measurement, per field and per app version.
 
 ## What it looks like on a PR
 
