@@ -1,8 +1,27 @@
-# 🌊 Breakwater
+<h1 align="center">
+  <img src="docs/hero.svg" width="100%" alt="Breakwater: see who breaks before you ship. A PR that removes courier.phone and loyalty and changes eta breaks 100% of active installs.">
+</h1>
 
-**See who breaks before you ship.** Breakwater records which API response fields each shipped version of your mobile and web apps *actually reads*, then tells you, on every pull request, exactly which app versions and how many real users an API change will break.
+<p align="center">
+  <a href="https://github.com/QasimJaffry/breakwater/actions/workflows/ci.yml"><img src="https://github.com/QasimJaffry/breakwater/actions/workflows/ci.yml/badge.svg" alt="CI status"></a>
+  <img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT license">
+  <img src="https://img.shields.io/badge/tests-55%20passing-brightgreen" alt="55 tests passing">
+</p>
 
-![Breakwater dashboard](docs/dashboard.png)
+Breakwater is a small SDK, a collector and a CI check. The SDK records which API response fields each shipped version of your mobile and web apps *actually reads*. On every pull request, the CLI joins that with your OpenAPI diff and tells you which app versions, and how many real installs, an API change will break.
+
+![Breakwater dashboard: 4 breaking changes reach 100% of 1,320 active installs; 7 returned fields are read by nobody](docs/dashboard-proof.png)
+
+*Demo: simulated traffic from the example "Eats" app, measured by the real SDK and collector.*
+
+## Try it in 30 seconds
+
+```bash
+git clone https://github.com/QasimJaffry/breakwater && cd breakwater
+npm install && npm run demo     # simulated app fleet → real SDK → real collector → PR report
+```
+
+It prints the PR report above and writes `dist/dashboard.html`: open it in a browser to click through the field map. Needs Node 22+.
 
 ## The problem
 
@@ -32,14 +51,9 @@ This is real output from `npm run demo` (see [the demo](#run-the-demo)): the "cl
 
 ## How it works
 
-```
- app (RN / Expo / web)                 collector (Node + SQLite)            CI
-┌──────────────────────┐  paths only  ┌──────────────────────────┐ snapshot ┌───────────────────────┐
-│ fetch → res.json()   │ ───────────▶ │ reads per field, per     │ ───────▶ │ breakwater check      │
-│ Proxy records reads: │              │ app version; active      │          │ OpenAPI diff × reads  │
-│ "courier.phone"      │              │ installs per version     │          │ → PR comment, exit 1  │
-└──────────────────────┘              └──────────────────────────┘          └───────────────────────┘
-```
+<p align="center">
+  <img src="docs/how-it-works.svg" width="100%" alt="Three steps: an SDK in your app records which response fields the code reads (paths only, never values); a collector counts reads and active installs per field and app version; a CI check diffs your OpenAPI spec, joins it with real reads and fails the PR that breaks users.">
+</p>
 
 1. **SDK** (`@breakwater/react-native`, `@breakwater/web`, shared `@breakwater/core`). It wraps `fetch` so `response.json()` returns a [Proxy](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Proxy) over the parsed body. Reading `order.courier.phone` records the path `courier.phone`, and array elements collapse to `items[].price`. Spread, destructuring, `JSON.stringify`, `for…of` and array methods all work and are recorded. Reads are deduplicated per route, so after warm-up a session sends nothing new.
 2. **Collector** (`@breakwater/collector`). A small Node service with SQLite (`node:sqlite`, no native deps). It validates every report strictly, stores `(route, path, platform, version)` with last-seen times, and counts active installs per version.
